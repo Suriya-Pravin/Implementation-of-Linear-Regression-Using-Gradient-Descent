@@ -23,54 +23,60 @@ Program to implement the linear regression using gradient descent.
 Developed by: 212223230223
 RegisterNumber:  Suriya Pravin M
 */
-import numpy as np
+import numpy as  np
 import pandas as pd
-from sklearn.metrics import  mean_absolute_error,mean_squared_error
-import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+def linear_regression(x1,y,learning_rate=0.01,num_iters=100):
+  X=np.c_[np.ones(len(X1)),x1]
+  theta=np.zeros(X.shape[1]).reshape(-1,1)
 
-dataset = pd.read_csv('student_scores.csv')
-print(dataset.head())
-print(dataset.tail())
+  for _ in range(num_iters):
+    predictions=(X).dot(theta).reshape(-1,1)
+    errors=(predictions-y).reshape(-1,1)        
+    theta=learning=learning_rate*(1/len(X1))*X.T.dot(errors)
+  return theta
 
-dataset.info()
-
-X=dataset.iloc[:,:-1].values
+data=pd.read_csv("50_Startups.csv")
+print(data.head())
+X=(data.iloc[1:,:-2].values)
 print(X)
-Y=dataset.iloc[:,-1].values
-print(Y)
+X1=X.astype(float)
+scaler=StandardScaler()
+y=(data.iloc[1:,-1].values).reshape(-1,1)
+print(y)
+X1_Scaled=scaler.fit_transform(X1)
+Y1_Scaled=scaler.fit_transform(y)
+print(X1_Scaled)
+print(Y1_Scaled)
+theta=linear_regression(X1_Scaled,Y1_Scaled);
 
-print(X.shape)
-print(Y.shape)
-
-m=0
-c=0
-L=0.0001
-epochs=5000
-n=float(len(X))
-error=[]
-for i in range(epochs):
-    Y_pred = m*X +c
-    D_m=(-2/n)*sum(X *(Y-Y_pred))
-    D_c=(-2/n)*sum(Y -Y_pred)
-    m=m-L*D_m
-    c=c-L*D_c
-    error.append(sum(Y-Y_pred)**2)
-print(m,c)
-type(error)
-print(len(error))
-
-plt.plot(range(0,epochs),error)
+new_data=np.array([165349.2,136897.8,471784.1]).reshape(-1,1)
+new_Scaled=scaler.fit_transform(new_data)
+prediction=np.dot(np.append(1,new_Scaled),theta)
+prediction=prediction.reshape(-1,1)
+pre=scaler.inverse_transform(prediction)
+print(f"Predicted value: {pre}")
 
 ```
 
 ## Output:
-![1](https://github.com/user-attachments/assets/e57d3087-7f62-4857-b738-ade3ea123b2d)
-![2](https://github.com/user-attachments/assets/d8db4f9a-ef47-4f72-b701-9be18ff1c245)
-![3](https://github.com/user-attachments/assets/a1cbe125-905d-4cf3-bc56-48b068d62cba)
-![4](https://github.com/user-attachments/assets/395f7d39-b1e4-4344-9624-7f88ca2cbdcf)
-![5](https://github.com/user-attachments/assets/35f04d1d-2a45-44b1-a2a0-c2c6b13e3d63)
-![6](https://github.com/user-attachments/assets/e3149a7b-aa03-459d-89b1-ba7d90bb343f)
-![7](https://github.com/user-attachments/assets/47f04b32-ea2f-48a1-b1a2-1069c93e7d3c)
+### Data head:
+![image](https://github.com/user-attachments/assets/c00a74e1-1a3c-4470-b76d-5ebd67a79337)
+
+### X values:
+![image](https://github.com/user-attachments/assets/1cf47201-f31c-47db-978e-cc2673dcb2fe)
+
+### Y Values:
+![image](https://github.com/user-attachments/assets/f70f3c10-f675-481a-b130-02adc5155162)
+
+### X_Scaled:
+![image](https://github.com/user-attachments/assets/1cdf0fad-e74e-4e41-8ccd-c815a2cda5f5)
+
+### Y_Scaled:
+![image](https://github.com/user-attachments/assets/d8b3b909-db3d-486a-b712-64e6db3ab09c)
+
+### Predicted Value:
+![image](https://github.com/user-attachments/assets/835bf422-224a-47de-ae59-c3949d20f36d)
 
 
 
